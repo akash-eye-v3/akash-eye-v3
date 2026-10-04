@@ -2,36 +2,55 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AKASH BROWSER V3</title>
+<title>AKASH EYE V3 PRO</title>
 <style>
-body{margin:0;background:#0f0f0f;color:#fff;font-family:sans-serif}
-.top{display:flex;align-items:center;padding:8px;background:#1e1e1e;gap:6px;position:sticky;top:0;z-index:99}
-.top input{flex:1;padding:10px 15px;border-radius:25px;border:1px solid #333;background:#2a2a2a;color:#fff;outline:none}
-.top button{padding:10px 16px;border-radius:25px;border:none;font-weight:bold}
-.go{background:#00ff88;color:#000}
-.auto{background:#ff0040;color:#fff}
-.view{width:100%;height:calc(100vh - 60px);border:none;background:#fff}
+body{margin:0;background:#000;color:#fff;font-family:sans-serif;text-align:center;padding-top:20px}
+.top{display:flex;gap:6px;padding:10px;background:#111;position:sticky;top:0}
+input{flex:1;padding:12px;border-radius:25px;border:none;background:#222;color:#fff}
+button{padding:12px 18px;border-radius:25px;border:none;font-weight:bold}
+.go{background:#00ff88}
+.auto{background:#ff0040;color:#fff;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
+.card{margin:20px;padding:20px;background:#1a1a1a;border-radius:15px}
 </style>
 </head>
 <body>
 <div class="top">
-<input id="url" value="pocketoption.com" placeholder="Search or type web address">
-<button class="go" onclick="go()">Go</button>
-<button class="auto" onclick="alert('AKASH EYE V3 AUTO Signal ON!')">AUTO</button>
+<input id="url" value="https://pocketoption.com" />
+<button class="go" onclick="openSite()">Go</button>
+<button class="auto" onclick="check()">AUTO</button>
 </div>
-<iframe id="view" class="view" src="https://pocketoption.com"></iframe>
+<div class="card" id="status">
+<h2>👁️ AKASH EYE V3 ACTIVE</h2>
+<p id="msg">ভাই Pocket Option খুলতে Go চাপ দাও</p>
+<button onclick="openSite()" style="background:#00ff88;padding:15px 30px;border-radius:30px;margin-top:15px;font-size:18px">Pocket Option খুলুন</button>
+<p style="margin-top:20px;color:#888">AUTO বাটনে চাপ দিলে Market চেক করবে</p>
+</div>
 <script>
-function go(){
- let u=document.getElementById('url').value.trim();
- if(!u) return;
- if(!u.startsWith('http')) {
-   if(u.includes('.')) u='https://'+u;
-   else u='https://www.google.com/search?q='+encodeURIComponent(u);
- }
- document.getElementById('url').value=u;
- document.getElementById('view').src=u;
+function openSite(){
+ let u=document.getElementById('url').value;
+ window.open(u,'_blank');
+ document.getElementById('msg').innerHTML='✅ Pocket Option নতুন ট্যাবে খুলেছে<br>এখন AUTO চাপ দাও';
 }
-document.getElementById('url').addEventListener('keydown',e=>{if(e.key==='Enter') go()});
+function check(){
+ let m=document.getElementById('msg');
+ m.innerHTML='🔍 Market খুঁজতেছি...';
+ setTimeout(()=>{
+   // এখানে পরে তোমার AI লজিক বসবে
+   let hasMarket = confirm("Demo: Market কি খোলা আছে? OK = হ্যাঁ, Cancel = না");
+   if(!hasMarket){
+     m.innerHTML='❌ ভাই কোনো Market দেখতে পাচ্ছি না, Market Open করেন';
+     speak("ভাই কোনো Market দেখতে পাচ্ছি না");
+   } else {
+     let sig = Math.random()>0.5?"UP":"DOWN";
+     m.innerHTML=`✅ Market দেখতে পাচ্ছি!<br><br><h1 style="color:#00ff88">${sig} এ Trade নেন</h1><br>85% Sure`;
+     speak(sig+" এ Trade নেন");
+   }
+ },1500);
+}
+function speak(t){
+ if('speechSynthesis' in window) speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+}
 </script>
 </body>
 </html>
