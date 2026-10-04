@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AKASH BROWSER V3</title>
+<style>
+body{margin:0;background:#0f0f0f;color:#fff;font-family:sans-serif}
+.top{display:flex;align-items:center;padding:8px;background:#1e1e1e;gap:6px;position:sticky;top:0;z-index:99}
+.top input{flex:1;padding:10px 15px;border-radius:25px;border:1px solid #333;background:#2a2a2a;color:#fff;outline:none}
+.top button{padding:10px 16px;border-radius:25px;border:none;font-weight:bold}
+.go{background:#00ff88;color:#000}
+.auto{background:#ff0040;color:#fff}
+.view{width:100%;height:calc(100vh - 60px);border:none;background:#fff}
+</style>
+</head>
+<body>
+<div class="top">
+<input id="url" value="pocketoption.com" placeholder="Search or type web address">
+<button class="go" onclick="go()">Go</button>
+<button class="auto" onclick="alert('AKASH EYE V3 AUTO Signal ON!')">AUTO</button>
+</div>
+<iframe id="view" class="view" src="https://pocketoption.com"></iframe>
+<script>
+function go(){
+ let u=document.getElementById('url').value.trim();
+ if(!u) return;
+ if(!u.startsWith('http')) {
+   if(u.includes('.')) u='https://'+u;
+   else u='https://www.google.com/search?q='+encodeURIComponent(u);
+ }
+ document.getElementById('url').value=u;
+ document.getElementById('view').src=u;
+}
+document.getElementById('url').addEventListener('keydown',e=>{if(e.key==='Enter') go()});
+</script>
+</body>
+</html>
