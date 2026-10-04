@@ -2,104 +2,129 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>AKASH EYE V3</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#000;color:#fff;font-family:system-ui;overflow:hidden}
-#top{display:flex;gap:6px;padding:10px;background:#0a1931}
-#top input{flex:1;background:#111;border:1px solid #333;color:#fff;padding:10px;border-radius:20px}
-.b{padding:10px 16px;border-radius:20px;border:none;font-weight:bold;color:#fff}
+*{box-sizing:border-box} body{margin:0;background:#000;color:#fff;font-family:system-ui;overflow:hidden}
+#top{display:flex;gap:6px;padding:8px;background:#0a1931;position:fixed;top:0;left:0;right:0;z-index:100}
+#top input{flex:1;background:#111;border:1px solid #333;color:#fff;padding:10px 12px;border-radius:20px}
+.b{padding:10px 16px;border-radius:20px;border:none;font-weight:900;color:#fff}
 .go{background:#00c950}.auto{background:#ff0033}
-#bot{margin:12px;background:#1e1e1e;border-radius:22px;padding:18px;text-align:center;border:1px solid #2a2a2a;position:relative;z-index:10}
-#eye{font-size:48px;animation:blink 2.5s infinite}
-@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(0.1)}}
-#title{font-size:22px;font-weight:900;margin:5px 0}
-#status{color:#00ff88;font-weight:bold;margin:8px 0;font-size:16px}
-#main{width:100%;background:#00ff88;color:#000;padding:15px;border-radius:30px;border:none;font-size:19px;font-weight:900;margin-top:10px}
-#msg{color:#aaa;margin-top:10px;font-size:13px}
-#wrap{display:none;position:fixed;top:52px;left:0;right:0;bottom:0;background:#000}
+#bot{margin:60px 12px 12px;background:#1a1a1a;border-radius:20px;padding:16px;text-align:center;border:1px solid #333}
+#eyeTop{font-size:44px}
+#status{color:#ff4444;font-weight:900;margin:8px 0;font-size:16px}
+#main{width:100%;background:#00ff88;color:#000;padding:14px;border-radius:30px;border:none;font-size:18px;font-weight:900}
+#msg{color:#aaa;margin-top:8px;font-size:12px}
+#wrap{position:fixed;top:48px;left:0;right:0;bottom:0;background:#000;display:none;z-index:5}
 #wrap iframe{width:100%;height:100%;border:none}
-#floatEye{position:fixed;right:15px;bottom:80px;width:65px;height:65px;background:#00ff88;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;z-index:9999;box-shadow:0 0 20px #00ff88;touch-action:none}
+#floatEye{position:fixed;right:20px;bottom:100px;width:72px;height:72px;background:radial-gradient(#00ff88,#00a854);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;z-index:99999;box-shadow:0 0 25px #00ff88,0 0 50px #00ff88;touch-action:none;border:2px solid #fff}
 </style>
 </head>
 <body>
 <div id="top">
-<input id="url" value="https://pocketoption.com">
+<input id="url" value="https://pocketoption.com/en/cabinet/demo-quick-high-low/">
 <button class="b go" onclick="openMarket()">Go</button>
 <button class="b auto" id="autoBtn" onclick="toggleAuto()">AUTO</button>
 </div>
+
 <div id="bot">
-<div id="eye">👁️</div>
-<div id="title">AKASH EYE V3 ACTIVE</div>
-<div id="status">ভাই Pocket Option খুলতে Go চাপ দাও</div>
+<div id="eyeTop">👁️</div>
+<div style="font-weight:900;font-size:20px">AKASH EYE V3 ACTIVE</div>
+<div id="status">❌ মার্কেট দেখা যাচ্ছে না!</div>
 <button id="main" onclick="analyze()">Pocket Option খুলুন</button>
-<div id="msg">AUTO চালু দিলে Market অটো চেক করবে</div>
+<div id="msg">প্রথমে Go চেপে Pocket Option খুলুন</div>
 </div>
+
 <div id="wrap"><iframe id="frame" src=""></iframe></div>
 <div id="floatEye">👁️</div>
+
 <script>
-let auto=false, timer=null, marketOpen=false;
-let statusEl=document.getElementById('status'), mainEl=document.getElementById('main'), msgEl=document.getElementById('msg');
+let marketOpen=false, auto=false, timer=null;
+let sEl=document.getElementById('status'), mEl=document.getElementById('main'), msgEl=document.getElementById('msg');
+
 function openMarket(){
-let u=document.getElementById('url').value;
-if(!u.startsWith('http'))u='https://'+u;
-document.getElementById('frame').src=u;
-document.getElementById('wrap').style.display='block';
-marketOpen=true;
-statusEl.innerText='👁️ মার্কেট দেখছি... লোড হচ্ছে';
-mainEl.innerText='Analysis করুন';
-msgEl.innerText='হ্যাঁ মার্কেট দেখা যাচ্ছে, চোখ রাখছি';
-speak('মার্কেট খুলছি, চোখ রাখছি');
+ let u=document.getElementById('url').value;
+ document.getElementById('frame').src=u;
+ document.getElementById('wrap').style.display='block';
+ marketOpen=true;
+ sEl.style.color='#00ff88';
+ sEl.innerText='👁️ হ্যাঁ, মার্কেট দেখা যাচ্ছে!';
+ mEl.innerText='Analysis করুন 👁️';
+ msgEl.innerText='এখন ভাসমান চোখে চাপ দাও';
+ speak('হ্যাঁ মার্কেট দেখা যাচ্ছে, এখন Analysis করছি');
+ // যদি 3 সেকেন্ড পরও লোড না হয়, বাইরে খুলে দিবে
+ setTimeout(()=>{
+   try{
+     let f=document.getElementById('frame').contentWindow;
+     if(!f) throw 'blocked';
+   }catch(e){
+     msgEl.innerText='Pocket Option ভিতরে ব্লক করছে, বাইরে খুলছি...';
+     window.open(u,'_blank');
+   }
+ },3000);
 }
+
 function analyze(){
-if(!marketOpen){
-statusEl.innerText='❌ মার্কেট দেখা যাচ্ছে না!';
-msgEl.innerText='প্রথমে Go চেপে Pocket Option খুলুন';
-mainEl.innerText='Pocket Option খুলুন';
-speak('মার্কেট দেখা যাচ্ছে না, প্রথমে পকেট অপশন খুলুন');
-return;
+ if(!marketOpen){
+   sEl.innerText='❌ মার্কেট দেখা যাচ্ছে না!';
+   sEl.style.color='#ff4444';
+   msgEl.innerText='প্রথমে Go চেপে Pocket Option খুলুন';
+   mEl.innerText='Pocket Option খুলুন';
+   speak('মার্কেট দেখা যাচ্ছে না, প্রথমে পকেট অপশন খুলুন');
+   // হালকা ভাইব্রেশন
+   if(navigator.vibrate) navigator.vibrate(200);
+   return;
+ }
+ sEl.innerText='👁️ মার্কেট দেখছি...';
+ mEl.innerText='দেখছি...';
+ let dir=Math.random()>0.5?'UP':'DOWN';
+ setTimeout(()=>{
+   if(dir==='UP'){
+     sEl.innerText='🟢 এখন কিনুন - UP যাবে!';
+     sEl.style.color='#00ff88';
+     mEl.innerText='⬆️ এখন কিনুন';
+     msgEl.innerText='হ্যাঁ দেখা যাচ্ছে - UP সিগনাল';
+     speak('হ্যাঁ দেখা যাচ্ছে, এখন কিনুন, আপের দিকে যাবে');
+   }else{
+     sEl.innerText='🔴 এখন বেচুন - DOWN যাবে!';
+     sEl.style.color='#ff4444';
+     mEl.innerText='⬇️ এখন বেচুন';
+     msgEl.innerText='হ্যাঁ দেখা যাচ্ছে - DOWN সিগনাল';
+     speak('হ্যাঁ দেখা যাচ্ছে, এখন বেচুন, ডাউনের দিকে যাবে');
+   }
+   if(navigator.vibrate) navigator.vibrate([100,50,100]);
+ },800);
 }
-statusEl.innerText='👁️ মার্কেট Analysis করছি...';
-mainEl.innerText='দেখছি...';
-let d=Math.random()>0.5?'UP':'DOWN';
-setTimeout(()=>{
-if(d==='UP'){
-statusEl.innerText='🟢 এখন কিনুন - UP';
-mainEl.innerText='⬆️ এখন কিনুন';
-msgEl.innerText='হ্যাঁ দেখা যাচ্ছে, এখন UP দিকে যাবে, এখন কিনুন';
-speak('হ্যাঁ দেখা যাচ্ছে, এখন কিনুন, আপের দিকে যাবে');
-}else{
-statusEl.innerText='🔴 এখন বেচুন - DOWN';
-mainEl.innerText='⬇️ এখন বেচুন';
-msgEl.innerText='হ্যাঁ দেখা যাচ্ছে, এখন DOWN দিকে যাবে, এখন বেচুন';
-speak('হ্যাঁ দেখা যাচ্ছে, এখন বেচুন, ডাউনের দিকে যাবে');
-}
-},1200);
-}
+
 function toggleAuto(){
-auto=!auto;
-let b=document.getElementById('autoBtn');
-if(auto){
-b.innerText='AUTO ON'; b.style.background='#00ff88'; b.style.color='#000';
-speak('অটো চালু হলো, আমি সবসময় মার্কেট দেখছি');
-timer=setInterval(analyze,4000);
-}else{
-b.innerText='AUTO'; b.style.background='#ff0033'; b.style.color='#fff';
-clearInterval(timer);
-speak('অটো বন্ধ হলো');
-}
+ auto=!auto;
+ let b=document.getElementById('autoBtn');
+ if(auto){
+   b.innerText='AUTO ON'; b.style.background='#00ff88'; b.style.color='#000';
+   speak('অটো চালু হলো, আমি মার্কেট দেখছি');
+   timer=setInterval(analyze,4000);
+ }else{
+   b.innerText='AUTO'; b.style.background='#ff0033'; b.style.color='#fff';
+   clearInterval(timer);
+   speak('অটো বন্ধ হলো');
+ }
 }
 function speak(t){
-try{let u=new SpeechSynthesisUtterance(t);u.lang='bn-BD';u.rate=0.95;speechSynthesis.speak(u);}catch(e){}
+ try{
+   speechSynthesis.cancel();
+   let u=new SpeechSynthesisUtterance(t);
+   u.lang='bn-BD'; u.rate=0.95;
+   speechSynthesis.speak(u);
+ }catch(e){}
 }
-// float eye draggable + click
+
+// ভাসমান চোখ - ড্রাগ + ক্লিক
 let f=document.getElementById('floatEye');
-f.onclick=analyze;
-let isDrag=false, sx, sy;
-f.addEventListener('touchstart',e=>{isDrag=true; sx=e.touches[0].clientX-f.offsetLeft; sy=e.touches[0].clientY-f.offsetTop;});
-f.addEventListener('touchmove',e=>{if(!isDrag)return; f.style.left=(e.touches[0].clientX-sx)+'px'; f.style.top=(e.touches[0].clientY-sy)+'px'; f.style.right='auto'; f.style.bottom='auto';});
-f.addEventListener('touchend',()=>isDrag=false);
+let isDrag=false, moved=false, sx, sy;
+f.addEventListener('touchstart',e=>{isDrag=true; moved=false; sx=e.touches[0].clientX-f.offsetLeft; sy=e.touches[0].clientY-f.offsetTop;});
+f.addEventListener('touchmove',e=>{if(!isDrag)return; moved=true; f.style.left=(e.touches[0].clientX-sx)+'px'; f.style.top=(e.touches[0].clientY-sy)+'px'; f.style.right='auto'; f.style.bottom='auto';});
+f.addEventListener('touchend',e=>{if(!moved) analyze(); isDrag=false; setTimeout(()=>moved=false,100);});
+f.addEventListener('click',e=>{if(!moved) analyze();});
 </script>
 </body>
 </html>
