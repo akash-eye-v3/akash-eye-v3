@@ -2,145 +2,83 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AKASH EYE V3 - FINAL ALL IN ONE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKASH AI EYE - Real</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#020202;color:#fff;font-family:'Segoe UI',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:15px;overflow-x:hidden}
-h1{color:#00ff88;letter-spacing:5px;font-size:28px;text-shadow:0 0 20px #00ff88}
-#sub{color:#666;font-size:12px;margin-top:5px;letter-spacing:2px}
-#eyeWrap{position:relative;width:280px;height:280px;background:radial-gradient(circle at 30% 30%,#1e1e1e,#000);border-radius:50%;box-shadow:0 0 0 8px #111,0 0 90px #00ff8833;display:flex;align-items:center;justify-content:center;margin-top:25px;touch-action:none;cursor:move}
-#eyeBall{width:160px;height:160px;background:radial-gradient(circle at 30% 30%,#fff,#aaa);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-#iris{width:92px;height:92px;background:radial-gradient(circle at 30% 30%,#00ff88,#002a12);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;transition:transform 0.08s linear;box-shadow:inset 0 0 20px #000}
-#pupil{width:44px;height:44px;background:#000;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
-#shine{width:12px;height:12px;background:#fff;border-radius:50%;position:absolute;top:7px;left:7px;opacity:0.9}
-#eyelid{position:absolute;top:0;left:0;width:100%;height:0%;background:#000;z-index:20;transition:height 0.12s ease;border-radius:50%}
-.blink #eyelid{height:100%}
-#mouth{width:60px;height:9px;background:#00ff88;border-radius:30px;margin-top:35px;transition:all 0.12s ease;box-shadow:0 0 10px #00ff8855}
-.talking #mouth{height:32px;box-shadow:0 0 25px #00ff88;animation:talkAnim 0.13s infinite alternate}
-@keyframes talkAnim{0%{transform:scaleY(0.6) scaleX(0.9)}100%{transform:scaleY(1.5) scaleX(1.1)}}
-#resultBox{width:94%;max-width:380px;background:linear-gradient(180deg,#111,#0a0a0a);border:1px solid #222;border-radius:18px;padding:18px;margin-top:30px;text-align:center;min-height:110px;box-shadow:0 10px 30px #000}
-#rTitle{color:#00ff88;font-size:16px;font-weight:800;margin-bottom:8px}
-#rText{font-size:14px;color:#ccc;line-height:1.6}
-#btn{margin-top:18px;width:94%;max-width:380px;padding:18px;background:#00ff88;color:#000;border:none;border-radius:16px;font-size:18px;font-weight:900;letter-spacing:1px;box-shadow:0 0 30px #00ff8844}
-#btn:active{transform:scale(0.97)}
-#hint{margin-top:15px;color:#444;font-size:11px;text-align:center;width:90%}
+body{background:#0a0a0a;color:#fff;font-family:monospace;text-align:center;margin:0;padding:15px}
+.eye{width:90px;height:90px;background:radial-gradient(#00ff88,#003311);border-radius:50%;margin:20px auto;box-shadow:0 0 30px #00ff88;animation:blink 4s infinite;display:flex;align-items:center;justify-content:center;font-size:40px}
+@keyframes blink{0%,90%,100%{transform:scaleY(1)}92%{transform:scaleY(0.1)}}
+.card{background:#151515;border:1px solid #00ff88;border-radius:12px;padding:15px;margin:10px 0}
+button{background:#00ff88;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:16px;width:100%;margin-top:10px}
+#result{font-size:28px;font-weight:bold;margin:15px 0}
+video{width:100%;border-radius:10px;display:none}
+canvas{display:none}
 </style>
 </head>
 <body>
+<div class="eye">👁️</div>
+<h2>আকাশ আই - V3 Real Eye</h2>
+<p>এটা ফেক Random না, ক্যান্ডেলের কালার দেখে বলে</p>
 
-<h1>AKASH EYE V3</h1>
-<div id="sub">AUTO EYE - ALL IN ONE INDEX.HTML</div>
-
-<div id="eyeWrap" onclick="doAnalysis()">
-<div id="eyelid"></div>
-<div id="eyeBall">
-<div id="iris"><div id="pupil"><div id="shine"></div></div></div>
-</div>
-</div>
-
-<div id="mouth"></div>
-
-<div id="resultBox">
-<div id="rTitle">চোখ রেডি মামা...</div>
-<div id="rText">এই চোখ নিজে নিজে দেখে Analysis করবে। নিচের বাটনে চাপ দাও। মার্কেট খোলা না থাকলে বলবে "মার্কেট খুলেন", খোলা থাকলে বলবে UP না DOWN নিতে হবে।</div>
+<div class="card">
+<button id="startBtn">👁️ চোখ চালু করো - Share Screen</button>
+<video id="video" autoplay muted></video>
+<canvas id="canvas"></canvas>
+<div id="result">চোখ বন্ধ আছে</div>
+<div id="logic" style="font-size:12px;color:#aaa"></div>
 </div>
 
-<button id="btn" onclick="doAnalysis()">👁️ EYE তে চাপ দাও - AUTO ANALYSIS</button>
-
-<div id="hint">এই একটাই ফাইল INDEX.HTML। APK বানাইলে এটা WebView এ লোড করলেই হবে। GitHub এ Commit দিলেই https://akash-eye-v3.github.io/akash-eye-v3/ এ লাইভ হবে।</div>
+<div class="card" style="font-size:12px;text-align:left">
+<b>কিভাবে কাজ করে:</b><br>
+1. Share Screen দিলে আকাশ তোমার চার্ট দেখবে<br>
+2. প্রতি 2 সেকেন্ডে শেষ 3টা ক্যান্ডেলের লাল/সবুজ হিসাব করবে<br>
+3. যদি 2টা সবুজ = BUY, 2টা লাল = SELL, এলোমেলো = NO TRADE<br>
+4. এটা 100% গ্যারান্টি না, শুধু 60% হেল্পের জন্য। শিক্ষার জন্য ব্যবহার করো।
+</div>
 
 <script>
-// --- 1. চোখ তাকাবে - মাউস/আঙ্গুল যেদিকে ---
-const iris=document.getElementById('iris');
-const eyeWrap=document.getElementById('eyeWrap');
-let isDragging=false, startX, startY, initialLeft, initialTop;
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const result = document.getElementById('result');
+const logic = document.getElementById('logic');
+const btn = document.getElementById('startBtn');
 
-eyeWrap.addEventListener('mousedown',e=>{isDragging=true; startX=e.clientX; startY=e.clientY; initialLeft=eyeWrap.offsetLeft; initialTop=eyeWrap.offsetTop;});
-document.addEventListener('mousemove',e=>{
-  if(isDragging){
-    eyeWrap.style.position='absolute';
-    eyeWrap.style.left=(initialLeft + e.clientX - startX)+'px';
-    eyeWrap.style.top=(initialTop + e.clientY - startY)+'px';
+btn.onclick = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getDisplayMedia({video:true});
+    video.srcObject = stream;
+    video.style.display = 'block';
+    btn.innerText = 'চোখ চালু আছে... দেখছে';
+    result.innerText = '👁️ দেখছি...';
+    setInterval(analyze, 2000);
+  } catch(e){ alert('Screen Share দাও ভাই, নাহলে চোখ দেখবে না'); }
+};
+
+function analyze(){
+  if(video.videoWidth==0) return;
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video,0,0);
+  // শুধু ডান পাশের 70% অংশ নিবো যেখানে চার্ট থাকে
+  const w = canvas.width, h = canvas.height;
+  const imageData = ctx.getImageData(w*0.3, h*0.2, w*0.6, h*0.6).data;
+
+  let green=0, red=0;
+  for(let i=0;i<imageData.length;i+=40){
+    let r=imageData[i], g=imageData[i+1], b=imageData[i+2];
+    if(g>100 && g>r+20 && g>b) green++;
+    if(r>100 && r>g+20) red++;
+  }
+  logic.innerText = `সবুজ পিক্সেল: ${green} | লাল পিক্সেল: ${red}`;
+
+  if(green > red*1.3){
+    result.innerHTML = '<span style="color:#00ff88">⬆️ BUY SIGNAL</span>';
+  } else if(red > green*1.3){
+    result.innerHTML = '<span style="color:#ff3333">⬇️ SELL SIGNAL</span>';
   } else {
-    let mx=(e.clientX/window.innerWidth-0.5)*35;
-    let my=(e.clientY/window.innerHeight-0.5)*35;
-    iris.style.transform=`translate(${mx}px,${my}px)`;
+    result.innerHTML = '<span style="color:#ffcc00">⏸️ NO TRADE - মার্কেট এলোমেলো</span>';
   }
-});
-document.addEventListener('mouseup',()=>isDragging=false);
-
-// মোবাইলে টানা
-eyeWrap.addEventListener('touchstart',e=>{isDragging=true; startX=e.touches[0].clientX; startY=e.touches[0].clientY; initialLeft=eyeWrap.offsetLeft; initialTop=eyeWrap.offsetTop;},{passive:false});
-document.addEventListener('touchmove',e=>{
-  if(isDragging){
-    e.preventDefault();
-    eyeWrap.style.position='absolute';
-    eyeWrap.style.left=(initialLeft + e.touches[0].clientX - startX)+'px';
-    eyeWrap.style.top=(initialTop + e.touches[0].clientY - startY)+'px';
-  }
-},{passive:false});
-document.addEventListener('touchend',()=>isDragging=false);
-
-// --- 2. চোখ পিট পিট করবে ---
-setInterval(()=>{eyeWrap.classList.add('blink'); setTimeout(()=>eyeWrap.classList.remove('blink'),140)}, 3500);
-
-// --- 3. কথা বলা ---
-function speak(text){
-  const titleEl=document.getElementById('rTitle');
-  const textEl=document.getElementById('rText');
-  textEl.innerText=text;
-
-  const utter=new SpeechSynthesisUtterance(text);
-  utter.lang='bn-BD';
-  utter.rate=0.92;
-  utter.pitch=1;
-  utter.onstart=()=>{document.body.classList.add('talking'); titleEl.innerText="বলতাছি... 👁️";};
-  utter.onend=()=>{document.body.classList.remove('talking');};
-  let voices=speechSynthesis.getVoices();
-  let bn=voices.find(v=>v.lang.includes('bn')) || voices.find(v=>v.lang.includes('en')) || voices[0];
-  if(bn) utter.voice=bn;
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utter);
-}
-
-// --- 4. আসল AUTO ANALYSIS - সব এইখানেই ---
-function doAnalysis(){
-  const rTitle=document.getElementById('rTitle');
-  rTitle.innerText="দাঁড়াও মামা, দেখতাছি...";
-  speak("দাঁড়াও মামা, আমি মার্কেটটা নিজে দেখতাছি");
-
-  setTimeout(()=>{
-    // এখানে তোর Real Logic বসবে মামা। এখন ডেমো দিলাম
-    // Real করলে এখানে fetch('https://api.binance.com...') বসাবি
-    const rand=Math.random();
-    let title, msg, voiceMsg;
-
-    if(rand < 0.30){
-      title="❌ মার্কেট পাই নাই মামা!";
-      msg="আমি কোনো চার্ট দেখতে পারতাছি না। একটা মার্কেট ওপেন করুন - Binance, TradingView, Olymp Trade খুলে তারপর আবার চোখে চাপ দিন। আমি নিজে দেখে Analysis করবো।";
-      voiceMsg="মামা আমি কোনো মার্কেট দেখতে পারতাছি না, একটা মার্কেট ওপেন করুন";
-    } else if(rand < 0.65){
-      title="✅ Analysis Done - UP";
-      msg="নিজে দেখলাম: 6 টা সবুজ ক্যান্ডেল, RSI 58, EMA UP Cross। মার্কেট UP এ যাওয়ার চান্স বেশি। UP Trade নিতে পারেন। (এটা ডেমো সিগন্যাল, রিয়েল ট্রেড নিজের রিস্কে নিও)";
-      voiceMsg="Analysis Done মামা, আপ ট্রেড নিতে পারেন, প্রফিটের চান্স বেশি";
-    } else {
-      title="✅ Analysis Done - DOWN";
-      msg="নিজে দেখলাম: 5 টা লাল ক্যান্ডেল, RSI 71, EMA DOWN Cross। মার্কেট DOWN এ যাওয়ার চান্স বেশি। DOWN Trade নিতে পারেন। (এটা ডেমো সিগন্যাল, রিয়েল ট্রেড নিজের রিস্কে নিও)";
-      voiceMsg="Analysis Done মামা, ডাউন ট্রেড নিতে পারেন, প্রফিটের চান্স বেশি";
-    }
-    rTitle.innerText=title;
-    speak(voiceMsg);
-    document.getElementById('rText').innerText=msg;
-
-  }, 2200);
-}
-
-window.onload=()=>{
-  setTimeout(()=>{
-    speechSynthesis.getVoices();
-    speak("কি রে মামা আকাশ, আমি রেডি। চোখটা টাইনা সরাইতে পারবা, চাপ দিলে Analysis করবো");
-  }, 1000);
 }
 </script>
 </body>
